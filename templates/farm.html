@@ -1,35 +1,172 @@
-
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  #wfWrap { position:relative; width:100%; background:#1a2f4e; font-family:monospace; border-radius:10px; overflow:hidden; }
+  
+  body { background:#f0f5f1; }
+  
+  #wfWrap { 
+    position:relative; width:100%; 
+    background: linear-gradient(135deg, #87ceeb 0%, #e0f6ff 50%, #f0f5f1 100%);
+    font-family:'Segoe UI', 'Arial', sans-serif; 
+    border-radius:15px; overflow:hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  }
+  
   #scene { display:block; width:100%; }
-  #panel { background:rgba(8,14,22,0.93); border-top:1px solid rgba(255,255,255,0.08); padding:10px 14px; }
-  .pg { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:8px; }
-  .pc { border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:5px 7px; background:rgba(255,255,255,0.03); }
-  .pn { font-size:9px; color:rgba(180,200,200,0.6); letter-spacing:1px; }
-  .pr { font-size:15px; color:#c8ddd8; font-weight:bold; line-height:1.1; }
-  .pv { font-size:9px; color:rgba(160,185,180,0.6); }
-  .pb { height:2px; background:rgba(255,255,255,0.07); border-radius:1px; margin-top:3px; overflow:hidden; }
-  .pf { height:100%; border-radius:1px; background:#8aacaa; transition:width 0.4s; }
-  .br { display:flex; gap:8px; align-items:center; }
-  .btn { font-family:monospace; font-size:11px; font-weight:bold; letter-spacing:1px; padding:6px 14px; border:none; border-radius:5px; cursor:pointer; transition:opacity 0.2s; text-transform:uppercase; }
-  .bg { background:#4a8a70; color:#e0f4ec; }
-  .bg:disabled { background:#2a3a34; color:#4a6a5a; cursor:not-allowed; }
-  .be { background:#8a7230; color:#f0e0b0; display:none; }
-  .st { font-size:9px; color:rgba(150,180,170,0.6); flex:1; text-align:right; letter-spacing:0.5px; }
-  .pw { height:2px; background:rgba(255,255,255,0.06); border-radius:1px; margin-bottom:8px; overflow:hidden; display:none; }
-  .pfw { height:100%; background:#4a8a70; border-radius:1px; width:0%; transition:width 0.08s; }
+  
+  #panel { 
+    background: linear-gradient(180deg, rgba(240,245,241,0.98) 0%, rgba(220,235,225,0.95) 100%);
+    border-top:3px solid #4a9b6f;
+    padding:16px 20px; 
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+  }
+  
+  .pg { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:12px; }
+  
+  .pc { 
+    border:2px solid rgba(74,155,111,0.3); 
+    border-radius:12px; 
+    padding:12px; 
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,250,245,0.95) 100%);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .pc:hover { 
+    border-color: rgba(74,155,111,0.6);
+    box-shadow: 0 4px 12px rgba(74,155,111,0.15);
+  }
+  
+  .pc.error {
+    border-color: rgba(220,100,80,0.4);
+    background: linear-gradient(135deg, rgba(255,245,240,0.95) 0%, rgba(255,240,235,0.95) 100%);
+  }
+  
+  .pc.error::before {
+    content: '⚠ ';
+    color: #d86450;
+    font-weight: bold;
+    font-size: 11px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  }
+  
+  .pn { font-size:10px; color:#4a6a5a; letter-spacing:0.5px; font-weight:600; }
+  .pr { font-size:16px; color:#1e4d2e; font-weight:bold; line-height:1.2; margin:4px 0; }
+  .pv { font-size:10px; color:#6b8f7a; margin:3px 0; }
+  
+  .pb { height:4px; background:rgba(74,155,111,0.2); border-radius:2px; margin-top:6px; overflow:hidden; }
+  .pf { height:100%; border-radius:2px; background:linear-gradient(90deg, #4a9b6f, #6fbf8f); transition:width 0.4s; box-shadow: 0 0 8px rgba(106,191,143,0.4); }
+  
+  .br { display:flex; gap:12px; align-items:center; }
+  
+  .btn { 
+    font-family:'Segoe UI', sans-serif; 
+    font-size:12px; 
+    font-weight:bold; 
+    letter-spacing:0.5px; 
+    padding:10px 20px; 
+    border:none; 
+    border-radius:8px; 
+    cursor:pointer; 
+    transition: all 0.3s ease;
+    text-transform:uppercase;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .bg { 
+    background:linear-gradient(135deg, #4a9b6f, #2d7a51); 
+    color:#fff;
+  }
+  
+  .bg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(74,155,111,0.3);
+  }
+  
+  .bg:disabled { 
+    background:#b0c0b0; 
+    color:#7a8a7a; 
+    cursor:not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+  
+  .be { 
+    background:linear-gradient(135deg, #d4a051, #c09030); 
+    color:#fff; 
+    display:none;
+  }
+  
+  .be:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212,160,81,0.3);
+  }
+  
+  .st { 
+    font-size:11px; 
+    color:#4a7a5a; 
+    flex:1; 
+    text-align:right; 
+    letter-spacing:0.5px;
+    font-weight:500;
+  }
+  
+  .pw { 
+    height:4px; 
+    background:rgba(74,155,111,0.15); 
+    border-radius:2px; 
+    margin-bottom:12px; 
+    overflow:hidden; 
+    display:none;
+  }
+  
+  .pfw { 
+    height:100%; 
+    background:linear-gradient(90deg, #4a9b6f, #6fbf8f); 
+    border-radius:2px; 
+    width:0%; 
+    transition:width 0.08s;
+    box-shadow: 0 0 6px rgba(106,191,143,0.5);
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+  }
+  
+  .status-healthy {
+    background: #d4f5e3;
+    color: #1e7e5a;
+  }
+  
+  .status-error {
+    background: #ffd4cc;
+    color: #b33a1f;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(106,191,143,0.3); }
+    50% { box-shadow: 0 0 16px rgba(106,191,143,0.6); }
+  }
+  
+  .pc.healthy .pb { animation: pulse-glow 2s infinite; }
 </style>
 
 <div id="wfWrap">
-  <canvas id="scene" height="400"></canvas>
+  <canvas id="scene" height="500"></canvas>
   <div id="panel">
     <div class="pw" id="pw"><div class="pfw" id="pfb"></div></div>
     <div class="pg" id="pg"></div>
     <div class="br">
-      <button class="btn bg" id="gbtn" onclick="startSim()">Initialize &amp; Generate</button>
+      <button class="btn bg" id="gbtn" onclick="startSim()">Initialize & Generate</button>
       <button class="btn be" id="ebtn" onclick="exportSim()">Export CSVs</button>
-      <div class="st" id="st">System idle.</div>
+      <div class="st" id="st">System idle. Windmill farm ready.</div>
     </div>
   </div>
 </div>
@@ -37,151 +174,254 @@
 <script>
 const C = document.getElementById('scene');
 const ctx = C.getContext('2d');
-const W = 680, H = 400;
+const W = 900, H = 500;
 C.width = W; C.height = H;
 
 const TURBINES = [
-  { id:1, label:'T1', profile:'Baseline',     x:110, y:218, towerH:70,  bladeR:28, speed:1.8,  phase:0   },
-  { id:2, label:'T2', profile:'High wind',    x:280, y:185, towerH:90,  bladeR:36, speed:4.2,  phase:1.2 },
-  { id:3, label:'T3', profile:'Pitch error',  x:430, y:200, towerH:80,  bladeR:32, speed:2.6,  phase:0.5 },
-  { id:4, label:'T4', profile:'Aging',        x:560, y:225, towerH:65,  bladeR:26, speed:1.4,  phase:2.1 },
-  { id:5, label:'T5', profile:'Blind test',   x:185, y:260, towerH:55,  bladeR:22, speed:2.1,  phase:3.0 },
+  { id:1, label:'T1', profile:'Baseline',     x:120, y:250, towerH:90,  bladeR:35, speed:1.8,  phase:0,    status:'healthy' },
+  { id:2, label:'T2', profile:'High wind',    x:280, y:220, towerH:110, bladeR:42, speed:4.2,  phase:1.2,  status:'healthy' },
+  { id:3, label:'T3', profile:'Pitch error',  x:480, y:240, towerH:100, bladeR:38, speed:2.6,  phase:0.5,  status:'error' },
+  { id:4, label:'T4', profile:'Aging',        x:650, y:260, towerH:85,  bladeR:32, speed:1.4,  phase:2.1,  status:'healthy' },
+  { id:5, label:'T5', profile:'Blind test',   x:800, y:275, towerH:75,  bladeR:28, speed:2.1,  phase:3.0,  status:'healthy' },
 ];
 
 let angles = TURBINES.map(t => t.phase);
 let running = false;
 let tick = 0;
 let raf;
+let turbineStatus = {};
 
 function drawSky() {
-  const g = ctx.createLinearGradient(0,0,0,H*0.62);
-  g.addColorStop(0,'#0d1b2e');
-  g.addColorStop(0.5,'#1a3050');
-  g.addColorStop(1,'#2a4a6a');
-  ctx.fillStyle = g; ctx.fillRect(0,0,W,H*0.62);
-
-  ctx.fillStyle='rgba(255,255,255,0.55)';
-  const stars=[[40,30],[90,18],[150,45],[220,12],[310,28],[380,8],[460,35],[530,15],[600,42],[640,22],[70,55],[180,60],[350,50],[490,18],[620,60],[25,70],[130,80],[260,65],[420,72],[580,38]];
-  stars.forEach(([sx,sy])=>{
-    ctx.beginPath(); ctx.arc(sx,sy,0.8,0,Math.PI*2); ctx.fill();
-  });
-
-  ctx.fillStyle='rgba(200,210,230,0.18)';
-  ctx.beginPath(); ctx.ellipse(550,60,42,12,0,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(200,210,230,0.12)';
-  ctx.beginPath(); ctx.ellipse(120,45,55,14,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(340,30,38,10,0,0,Math.PI*2); ctx.fill();
+  // Beautiful gradient sky
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.6);
+  skyGrad.addColorStop(0, '#87ceeb');
+  skyGrad.addColorStop(0.4, '#b3d9ff');
+  skyGrad.addColorStop(1, '#e0f6ff');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, H * 0.6);
+  
+  // Sun
+  const sunGrad = ctx.createRadialGradient(850, 80, 0, 850, 80, 50);
+  sunGrad.addColorStop(0, 'rgba(255,220,100,0.9)');
+  sunGrad.addColorStop(1, 'rgba(255,200,50,0.3)');
+  ctx.fillStyle = sunGrad;
+  ctx.beginPath();
+  ctx.arc(850, 80, 45, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Soft clouds
+  drawCloud(150, 80, 80, 'rgba(255,255,255,0.85)');
+  drawCloud(450, 60, 100, 'rgba(255,255,255,0.75)');
+  drawCloud(700, 100, 70, 'rgba(255,255,255,0.8)');
+  drawCloud(250, 150, 60, 'rgba(255,255,255,0.6)');
 }
 
-function drawHills() {
-  ctx.fillStyle='#1e3d28';
-  ctx.beginPath(); ctx.moveTo(0,H);
-  ctx.bezierCurveTo(50,300,150,220,280,240);
-  ctx.bezierCurveTo(380,255,450,210,540,230);
-  ctx.bezierCurveTo(600,242,650,280,W,290);
-  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
-
-  ctx.fillStyle='#254a30';
-  ctx.beginPath(); ctx.moveTo(0,H);
-  ctx.bezierCurveTo(30,320,100,260,200,278);
-  ctx.bezierCurveTo(300,295,360,250,460,268);
-  ctx.bezierCurveTo(540,280,610,305,W,310);
-  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
-
-  ctx.fillStyle='#2e5a38';
-  ctx.beginPath(); ctx.moveTo(0,H);
-  ctx.bezierCurveTo(80,340,180,295,300,308);
-  ctx.bezierCurveTo(400,318,500,300,600,318);
-  ctx.bezierCurveTo(640,325,665,335,W,330);
-  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
-
-  ctx.fillStyle='#3a6a42';
-  ctx.fillRect(0,340,W,H-340);
-
-  ctx.fillStyle='#2a5232';
-  ctx.beginPath(); ctx.moveTo(0,H);
-  ctx.lineTo(0,360);
-  ctx.bezierCurveTo(100,345,200,370,300,358);
-  ctx.bezierCurveTo(400,348,500,365,600,355);
-  ctx.lineTo(W,360); ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+function drawCloud(cx, cy, size, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(cx - size * 0.4, cy, size * 0.35, 0, Math.PI * 2);
+  ctx.arc(cx, cy - size * 0.15, size * 0.45, 0, Math.PI * 2);
+  ctx.arc(cx + size * 0.4, cy, size * 0.35, 0, Math.PI * 2);
+  ctx.fill();
 }
 
-function drawTrees() {
-  const treePositions = [
-    [15,355,18,28],[38,362,12,20],[60,358,15,24],[630,350,17,26],[650,358,13,20],[668,355,14,22],
-    [320,355,12,18],[340,360,10,16],[500,350,16,25],[520,358,11,17],[245,368,13,20],[265,365,10,15]
-  ];
-  treePositions.forEach(([tx,ty,tw,th])=>{
-    ctx.fillStyle='#1e3d24';
-    ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(tx-tw/2,ty+th); ctx.lineTo(tx+tw/2,ty+th); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#162d1a';
-    ctx.beginPath(); ctx.moveTo(tx,ty-th*0.3); ctx.lineTo(tx-tw*0.4,ty+th*0.5); ctx.lineTo(tx+tw*0.4,ty+th*0.5); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#4a3020';
-    ctx.fillRect(tx-1.5,ty+th,3,6);
-  });
+function drawField() {
+  // Green rolling hills
+  const fieldGrad = ctx.createLinearGradient(0, H * 0.5, 0, H);
+  fieldGrad.addColorStop(0, '#5fa050');
+  fieldGrad.addColorStop(0.5, '#4a8a40');
+  fieldGrad.addColorStop(1, '#2d6b2a');
+  ctx.fillStyle = fieldGrad;
+  ctx.fillRect(0, H * 0.5, W, H * 0.5);
+  
+  // Field texture - grass patches
+  ctx.fillStyle = 'rgba(100,140,80,0.3)';
+  for (let i = 0; i < 100; i++) {
+    const px = Math.random() * W;
+    const py = H * 0.5 + Math.random() * (H * 0.5);
+    ctx.fillRect(px, py, 2 + Math.random() * 3, 1);
+  }
+  
+  // Subtle hill contours
+  ctx.strokeStyle = 'rgba(40,80,35,0.2)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, H * 0.55);
+  for (let x = 0; x < W; x += 50) {
+    ctx.lineTo(x, H * 0.52 + Math.sin(x * 0.01) * 15);
+  }
+  ctx.lineTo(W, H * 0.55);
+  ctx.stroke();
 }
 
 function drawTurbine(t, angle) {
   const cx = t.x;
-  const baseY = t.y + t.towerH;
-  const hubY = t.y;
-  const scale = t.bladeR / 32;
-
-  ctx.strokeStyle='#8a9aa0'; ctx.lineWidth=3.5*scale+1.5;
-  ctx.beginPath(); ctx.moveTo(cx,baseY); ctx.lineTo(cx,hubY+4); ctx.stroke();
-
-  const bw = t.bladeR*0.22;
-  for(let i=0;i<3;i++){
-    const a = angle + i*(Math.PI*2/3);
+  const baseY = H * 0.5;
+  const hubY = baseY - t.towerH;
+  const scale = t.bladeR / 35;
+  
+  // Tower base (concrete foundation)
+  ctx.fillStyle = '#a8a8a8';
+  ctx.fillRect(cx - 12, baseY, 24, 8);
+  
+  // Tower (steel lattice effect)
+  const towerGrad = ctx.createLinearGradient(cx - t.towerH * 0.08, baseY - t.towerH, cx + t.towerH * 0.08, baseY);
+  towerGrad.addColorStop(0, '#c0c0c0');
+  towerGrad.addColorStop(0.5, '#a0a0a0');
+  towerGrad.addColorStop(1, '#b8b8b8');
+  ctx.fillStyle = towerGrad;
+  ctx.beginPath();
+  ctx.moveTo(cx - 5, baseY);
+  ctx.lineTo(cx - 3, baseY - t.towerH);
+  ctx.lineTo(cx + 3, baseY - t.towerH);
+  ctx.lineTo(cx + 5, baseY);
+  ctx.closePath();
+  ctx.fill();
+  
+  // Tower outline for depth
+  ctx.strokeStyle = '#808080';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  
+  // Hub center
+  ctx.fillStyle = '#e0e0e0';
+  ctx.strokeStyle = '#808080';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, hubY, 7 * scale, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  // Draw blades with rotation
+  if (t.status === 'error') {
+    // Broken windmill - tilted blade
     ctx.save();
-    ctx.translate(cx,hubY);
-    ctx.rotate(a);
-    ctx.fillStyle='#b8c8cc';
-    ctx.strokeStyle='#8a9aa8'; ctx.lineWidth=0.5;
-    ctx.beginPath();
-    ctx.ellipse(0,-t.bladeR*0.5, bw, t.bladeR, 0, 0, Math.PI*2);
-    ctx.fill(); ctx.stroke();
+    ctx.translate(cx, hubY);
+    ctx.rotate(angle + Math.PI * 0.3);
+    drawBlade(0, 0, t.bladeR, scale, '#d4a4a0', true);
     ctx.restore();
+  } else {
+    // Three healthy blades
+    for (let i = 0; i < 3; i++) {
+      const a = angle + (i * Math.PI * 2 / 3);
+      ctx.save();
+      ctx.translate(cx, hubY);
+      ctx.rotate(a);
+      drawBlade(0, 0, t.bladeR, scale, '#f0f8f5', false);
+      ctx.restore();
+    }
   }
-
-  ctx.fillStyle='#ccd8dc';
-  ctx.strokeStyle='#8a9aa8'; ctx.lineWidth=0.8;
-  ctx.beginPath(); ctx.arc(cx,hubY,5*scale,0,Math.PI*2); ctx.fill(); ctx.stroke();
-
-  if(running){
-    const pr = t.bladeR*0.8;
-    ctx.strokeStyle='rgba(80,200,160,0.15)'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.arc(cx,hubY,pr,0,Math.PI*2); ctx.stroke();
+  
+  // Nacelle (machine house)
+  ctx.save();
+  ctx.translate(cx, hubY);
+  ctx.rotate(angle);
+  ctx.fillStyle = '#d4a574';
+  ctx.fillRect(-8 * scale, -4 * scale, 16 * scale, 8 * scale);
+  ctx.strokeStyle = '#a87c40';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(-8 * scale, -4 * scale, 16 * scale, 8 * scale);
+  ctx.restore();
+  
+  // Health glow effect
+  if (running && t.status === 'healthy') {
+    const glowRadius = t.bladeR * 1.2;
+    const glowGrad = ctx.createRadialGradient(cx, hubY, t.bladeR * 0.8, cx, hubY, glowRadius);
+    glowGrad.addColorStop(0, 'rgba(100,220,150,0.3)');
+    glowGrad.addColorStop(1, 'rgba(100,220,150,0)');
+    ctx.fillStyle = glowGrad;
+    ctx.beginPath();
+    ctx.arc(cx, hubY, glowRadius, 0, Math.PI * 2);
+    ctx.fill();
   }
+  
+  // Error glow effect
+  if (t.status === 'error') {
+    const errorGrad = ctx.createRadialGradient(cx, hubY, t.bladeR * 0.8, cx, hubY, t.bladeR * 1.2);
+    errorGrad.addColorStop(0, 'rgba(220,100,80,0.4)');
+    errorGrad.addColorStop(1, 'rgba(220,100,80,0)');
+    ctx.fillStyle = errorGrad;
+    ctx.beginPath();
+    ctx.arc(cx, hubY, t.bladeR * 1.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Label
+  ctx.fillStyle = '#1a3a1a';
+  ctx.font = `bold ${12 * scale}px 'Segoe UI', Arial`;
+  ctx.textAlign = 'center';
+  ctx.fillText(t.label, cx, baseY + 18);
+  
+  ctx.fillStyle = '#4a7a5a';
+  ctx.font = `${10 * scale}px 'Segoe UI', Arial`;
+  ctx.fillText(t.profile, cx, baseY + 32);
+}
 
-  ctx.fillStyle='rgba(180,220,210,0.7)';
-  ctx.font=`bold ${Math.max(9,10*scale)}px monospace`;
-  ctx.textAlign='center';
-  ctx.fillText(t.label, cx, baseY+12);
-  ctx.fillStyle='rgba(140,170,165,0.5)';
-  ctx.font=`${Math.max(7,8*scale)}px monospace`;
-  ctx.fillText(t.profile, cx, baseY+22);
+function drawBlade(x, y, radius, scale, color, isBroken) {
+  if (isBroken) {
+    // Broken blade - darker and slightly bent
+    ctx.fillStyle = '#a88a7a';
+    ctx.strokeStyle = '#7a5a50';
+  } else {
+    // Healthy blade with gradient
+    const bladeGrad = ctx.createLinearGradient(0, -radius * 0.3, 0, -radius * 0.7);
+    bladeGrad.addColorStop(0, '#ffffff');
+    bladeGrad.addColorStop(0.5, color);
+    bladeGrad.addColorStop(1, '#d0e8e0');
+    ctx.fillStyle = bladeGrad;
+    ctx.strokeStyle = '#a8b8b0';
+  }
+  
+  ctx.lineWidth = 0.8 * scale;
+  ctx.beginPath();
+  ctx.ellipse(0, -radius * 0.5, radius * 0.18, radius * 0.55, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  // Blade detail lines
+  ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(-radius * 0.08, -radius * 0.2);
+  ctx.lineTo(-radius * 0.08, -radius * 0.8);
+  ctx.stroke();
 }
 
 function draw() {
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0, 0, W, H);
   drawSky();
-  drawHills();
-  drawTrees();
-  TURBINES.forEach((t,i)=>drawTurbine(t,angles[i]));
+  drawField();
+  TURBINES.forEach((t, i) => drawTurbine(t, angles[i]));
 }
 
 function loop() {
   tick++;
-  TURBINES.forEach((t,i)=>{
+  TURBINES.forEach((t, i) => {
     let spd = 0;
-    if(running){
-      switch(t.profile){
-        case 'Baseline':    spd=t.speed*(1+0.05*Math.sin(tick*0.03)); break;
-        case 'High wind':   spd=t.speed*(1+0.4*Math.sin(tick*0.05))+0.5*Math.random(); break;
-        case 'Pitch error': spd=t.speed*(1+0.3*Math.abs(Math.sin(tick*0.09))); break;
-        case 'Aging':       spd=t.speed*(0.85+0.05*Math.sin(tick*0.02)); break;
-        case 'Blind test':  spd=tick<3000?t.speed:(t.speed*(1+0.6*Math.sin(tick*0.1))+0.4*Math.random()); break;
+    
+    if (running) {
+      if (t.status === 'error') {
+        // Broken turbine - minimal movement with jitter
+        spd = 0.05 * Math.sin(tick * 0.02);
+      } else {
+        // Healthy turbines with different behaviors
+        switch(t.profile) {
+          case 'Baseline':
+            spd = t.speed * (1 + 0.05 * Math.sin(tick * 0.03));
+            break;
+          case 'High wind':
+            spd = t.speed * (1 + 0.4 * Math.sin(tick * 0.05)) + 0.3 * Math.random();
+            break;
+          case 'Pitch error':
+            spd = t.speed * (1 + 0.3 * Math.abs(Math.sin(tick * 0.09)));
+            break;
+          case 'Aging':
+            spd = t.speed * (0.85 + 0.05 * Math.sin(tick * 0.02));
+            break;
+          case 'Blind test':
+            spd = tick < 3000 ? t.speed : (t.speed * (1 + 0.6 * Math.sin(tick * 0.1)) + 0.3 * Math.random());
+            break;
+        }
       }
     }
     angles[i] += spd * 0.018;
@@ -189,51 +429,127 @@ function loop() {
 
   draw();
 
-  if(running && tick%15===0){
-    TURBINES.forEach((t,i)=>{
-      let rpm=1500,vib=0.9;
-      switch(t.profile){
-        case 'High wind':   rpm=1500+110*Math.sin(tick*0.04); vib=1.2+0.5*Math.abs(Math.sin(tick*0.06)); break;
-        case 'Pitch error': rpm=1500+8*Math.sin(tick*0.05);  vib=1.6+0.8*Math.abs(Math.sin(tick*0.12)); break;
-        case 'Aging':       rpm=1490+3*Math.sin(tick*0.02);  vib=0.9+Math.min(tick/10000,1.2); break;
-        case 'Blind test':  rpm=tick<3000?1500:(1500+70*Math.sin(tick*0.09)); vib=tick<3000?0.9:(1.8+1.2*Math.abs(Math.sin(tick*0.11))); break;
+  if (running && tick % 15 === 0) {
+    TURBINES.forEach((t, i) => {
+      let rpm = 1500, vib = 0.9;
+      let isHealthy = true;
+      
+      switch(t.profile) {
+        case 'Baseline':
+          rpm = 1500 + 10 * Math.sin(tick * 0.03);
+          vib = 0.85 + 0.15 * Math.abs(Math.sin(tick * 0.02));
+          break;
+        case 'High wind':
+          rpm = 1500 + 110 * Math.sin(tick * 0.04);
+          vib = 1.2 + 0.5 * Math.abs(Math.sin(tick * 0.06));
+          break;
+        case 'Pitch error':
+          rpm = 1500 + 8 * Math.sin(tick * 0.05);
+          vib = 1.6 + 0.8 * Math.abs(Math.sin(tick * 0.12));
+          isHealthy = false;
+          break;
+        case 'Aging':
+          rpm = 1490 + 3 * Math.sin(tick * 0.02);
+          vib = 0.9 + Math.min(tick / 10000, 1.2);
+          break;
+        case 'Blind test':
+          rpm = tick < 3000 ? 1500 : (1500 + 70 * Math.sin(tick * 0.09));
+          vib = tick < 3000 ? 0.9 : (1.8 + 1.2 * Math.abs(Math.sin(tick * 0.11)));
+          isHealthy = tick < 3000;
+          break;
       }
-      document.getElementById('pr'+t.id).textContent=Math.round(rpm)+' RPM';
-      document.getElementById('pv'+t.id).textContent='vib '+vib.toFixed(2)+'g';
-      const pct=Math.min(100,((rpm-1200)/4));
-      document.getElementById('pf'+t.id).style.width=pct.toFixed(1)+'%';
+      
+      const prEl = document.getElementById('pr' + t.id);
+      const pvEl = document.getElementById('pv' + t.id);
+      const pcEl = document.getElementById('pc' + t.id);
+      const sbEl = document.getElementById('sb' + t.id);
+      
+      if (prEl) prEl.textContent = Math.round(rpm) + ' RPM';
+      if (pvEl) pvEl.textContent = 'vib ' + vib.toFixed(2) + 'g';
+      
+      const pct = Math.min(100, ((rpm - 1200) / 4));
+      const pfEl = document.getElementById('pf' + t.id);
+      if (pfEl) pfEl.style.width = pct.toFixed(1) + '%';
+      
+      if (pcEl) {
+        if (isHealthy && vib < 1.5) {
+          pcEl.classList.add('healthy');
+          pcEl.classList.remove('error');
+          if (sbEl) sbEl.innerHTML = '<span class="status-badge status-healthy">✓ HEALTHY</span>';
+        } else {
+          pcEl.classList.add('error');
+          pcEl.classList.remove('healthy');
+          if (sbEl) sbEl.innerHTML = '<span class="status-badge status-error">✗ ERROR</span>';
+        }
+      }
     });
   }
 
-  raf=requestAnimationFrame(loop);
+  raf = requestAnimationFrame(loop);
 }
 
 function buildPanel(){
-  const pg=document.getElementById('pg');
-  TURBINES.forEach(t=>{
-    pg.innerHTML+=`<div class="pc"><div class="pn">${t.label} · ${t.profile}</div><div class="pr" id="pr${t.id}">— RPM</div><div class="pv" id="pv${t.id}">vib —g</div><div class="pb"><div class="pf" id="pf${t.id}" style="width:0%"></div></div></div>`;
+  const pg = document.getElementById('pg');
+  TURBINES.forEach(t => {
+    const isError = t.status === 'error';
+    const statusClass = isError ? 'error' : 'healthy';
+    pg.innerHTML += `
+      <div class="pc ${statusClass}" id="pc${t.id}">
+        <div class="pn">${t.label} · ${t.profile}</div>
+        <div class="pr" id="pr${t.id}">— RPM</div>
+        <div class="pv" id="pv${t.id}">vib —g</div>
+        <div class="pb"><div class="pf" id="pf${t.id}" style="width:0%"></div></div>
+        <div id="sb${t.id}"></div>
+      </div>
+    `;
   });
 }
 
 function startSim(){
-  const gb=document.getElementById('gbtn'),pw=document.getElementById('pw'),pfb=document.getElementById('pfb'),st=document.getElementById('st');
-  gb.disabled=true; pw.style.display='block'; running=true;
-  let p=0;
-  const msgs=['Simulating 1kHz physics...','Injecting harmonic variance...','Farm online.'];
-  let mi=0;
-  const iv=setInterval(()=>{
-    p+=2; pfb.style.width=Math.min(p,100)+'%';
-    const nm=Math.floor(p/35); if(nm!==mi&&msgs[nm]){mi=nm;st.textContent=msgs[nm];}
-    if(p>=100){clearInterval(iv);st.textContent='Telemetry live · 5 turbines · 1kHz stream';document.getElementById('ebtn').style.display='inline-block';}
-  },50);
-  fetch('/generate').catch(()=>{});
+  const gb = document.getElementById('gbtn');
+  const pw = document.getElementById('pw');
+  const pfb = document.getElementById('pfb');
+  const st = document.getElementById('st');
+  
+  gb.disabled = true;
+  pw.style.display = 'block';
+  running = true;
+  
+  let p = 0;
+  const msgs = ['🔄 Spinning up turbines...', '⚡ Harvesting wind energy...', '✅ Farm online.'];
+  let mi = 0;
+  
+  const iv = setInterval(() => {
+    p += 2;
+    pfb.style.width = Math.min(p, 100) + '%';
+    const nm = Math.floor(p / 35);
+    if (nm !== mi && msgs[nm]) {
+      mi = nm;
+      st.textContent = msgs[nm];
+    }
+    if (p >= 100) {
+      clearInterval(iv);
+      st.textContent = '✅ Telemetry live · 5 turbines · Real-time energy monitoring';
+      document.getElementById('ebtn').style.display = 'inline-block';
+    }
+  }, 50);
+  
+  fetch('/generate').catch(() => {});
 }
 
 function exportSim(){
-  const eb=document.getElementById('ebtn'),st=document.getElementById('st');
-  eb.disabled=true; eb.textContent='Exporting...';
-  fetch('/store').catch(()=>{});
-  setTimeout(()=>{eb.style.display='none';st.textContent='Files written · T5 ready for cloud upload.';},1200);
+  const eb = document.getElementById('ebtn');
+  const st = document.getElementById('st');
+  
+  eb.disabled = true;
+  eb.textContent = 'Exporting...';
+  
+  fetch('/store').catch(() => {});
+  
+  setTimeout(() => {
+    eb.style.display = 'none';
+    st.textContent = '💾 Files exported · Ready for analysis';
+  }, 1200);
 }
 
 buildPanel();

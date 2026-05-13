@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify
 import numpy as np
 import pandas as pd
 import os
+import random
 
 app = Flask(__name__)
 
@@ -47,11 +48,28 @@ def generate():
     global global_memory
     global_memory.clear() # Clear any old data
     
-    scenarios = [(1, "baseline"), (2, "high_wind"), (3, "blade_pitch_error"), (4, "aging_bearing"), (5, "unseen_test")]
+    # Turbines 1-4 are guaranteed states. Turbines 5-6 are wildcards!
+    possible_states = ["baseline", "high_wind", "blade_pitch_error", "aging_bearing", "unseen_test"]
+    
+    scenarios = [
+        (1, "baseline"), 
+        (2, "high_wind"), 
+        (3, "blade_pitch_error"), 
+        (4, "aging_bearing"), 
+        (5, random.choice(possible_states)), 
+        (6, random.choice(possible_states))
+    ]
     
     for t_id, profile in scenarios:
         df = create_turbine_dataframe(t_id, profile)
-        filename = f"turbine_{t_id}_{profile}.csv"
+        
+        # THE FIX: Pure, generic filenames. No spoilers for the AI or the grading panel.
+        filename = f"turbine_{t_id}.csv"
+        
+        # Print to the Edge Node terminal so YOU know what was generated, 
+        # but the grading panel looking at the files won't know.
+        print(f"Generated {filename} --> True State: {profile}") 
+        
         global_memory[filename] = df # Store in RAM
         
     return jsonify({"status": "ready"})
